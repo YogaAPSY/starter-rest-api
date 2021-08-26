@@ -1,0 +1,478 @@
+{
+    "openapi": "3.0.3",
+    "info" : {
+        "title": "Kampaser API",
+        "description": "Restful API for Kampaser application as a transaction application between Sales and Warung.",
+        "termsOfService": "https://kampaser.com",
+        "version": "1.0.0",
+        "contact": {
+            "name": "Kampaser Team",
+            "email": "kampaser@gmail.com",
+            "url": "https://kampaser.com"
+        },
+        "license": {
+            "name": "Swagxcel 2.0",
+            "url": "http://bit.ly/apibajol"
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Authentication User"
+        }
+    ],
+    "servers": [
+        {
+            "url": "https://api.kampaser.com/api/v1/",
+            "description": "Production"
+
+        },
+        {
+            "url": "https://localhost:8000/api/v1/",
+             "description": "Localhost"
+
+        }
+    ],
+    "externalDocs": {
+        "description": "Swagxcel 1.0",
+        "url": "http://bit.ly/apibajol"
+    },
+    "paths": {
+        "/auth/login" : {
+            "post" : {
+                "tags": ["Auth"],
+                "summary": "Login Kampaser",
+                "description": "Login with active account",
+                "parameters": [
+                    {
+                        "$ref" : "#components/parameters/platform"
+                    }
+                ],
+                "requestBody" : {
+                    "required": true,
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "type": "object",
+                                "required": [
+                                    "username", "password", "firebase_token"
+                                ],
+                                "properties": {
+                                    "username" : {
+                                        "type"      : "string",
+                                        "minLength" : 3,
+                                        "example"   : "yogaap_sy"
+                                    },
+                                      "password" : {
+                                        "type": "string",
+                                        "minLength": 3,
+                                        "example" : "Qwerty123"
+                                    },
+                                      "firebase_token" : {
+                                        "type": "string",
+                                        "example" : "Loremipsomdolorsitamet"
+                                    }
+                                }
+                            },
+                            "examples" : {
+                                "true_example" : {
+                                    "description": "Input with true data",
+                                    "value" : {
+                                        "username" : "yogaapsy",
+                                        "password" : "Qwerty123",
+                                        "firebase_token" : "Loremipsomdolorsitamet"
+                                    }
+                                },
+                                "false_example" : {
+                                    "description": "Input with false data",
+                                    "value" : {
+                                        "username" : "yo",
+                                        "password" : "Qw",
+                                        "firebase_token" : "Loremipsomdolorsitamet"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200" : {
+                        "description": "Information account",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "type": "object",
+                                   "properties": {
+                                       "status" : {
+                                           "type": "integer"
+                                       },
+                                       "success" : {
+                                           "type": "string"
+                                       },
+                                       "data" : {
+
+                                               "type": "object",
+                                               "properties": {
+                                                    "id" : {
+                                                        "type" : "integer"
+                                                    },
+                                                    "username" : {
+                                                        "type": "string"
+                                                    },
+                                                    "name" : {
+                                                        "type": "string"
+                                                    }
+                                               }
+
+
+                                       },
+                                       "token" : {
+                                           "type": "string"
+                                       }
+                                   }
+                                },
+                                "example": {
+                                    "status" : 200,
+                                    "success" : true,
+                                    "data" : {
+                                        "id" : 2,
+                                        "username" : "yoga2@gmail.com",
+                                        "name" : "yoga 2"
+                                    },
+                                    "token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTU2YzE0YmI1MWNhMTczOGZmMGFiMzdiYjhmYjg2NTkwNmYzOGI4M2RiYzAwY2I5ZjY5YjBlM2RkN2E0Mzg0MTliNWM4NzdkNTY3ZjE1OTkiLCJpYXQiOjE2MjkxMDMxMDEsIm5iZiI6MTYyOTEwMzEwMSwiZXhwIjoxNjYwNjM5MTAxLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.MKOU3a80eqW9zFNqBM0aGpUQogogZWisl65UCVwEUahj8chOmgxiElL-GvOql6JFjY7iKKJIuG18eIPyhFqhaBmtgLfKLsufL0w1e5QPo8fjFi0OTSPLyyxatThpCkMxKKgl9xcSv0xdpKiJGksLzB_0lWvO5UQyWymlgi94kmKWBcRRjQwn6f1FjLvurD9IfraQza6ZhNjakLv5-lLk_Jc-_FYQxJyw6uPPLsq4JzP07LeZidM0QpRBh7oIK_phnjU4i6z8k4YVmrHP0yvTuckKQoXqF_wXrtjR9TjBQLaxRan8WxOR67z6J2FMXdOFISA1EprSY19jxxjpxS8KPMrN9xFJvPwv08wCvBC2hAHHd_CTpGBzYcml8Q88pkhLcQh3Oyr2XFktlwcR49VuY0hTKOPORm9X64ihMZlYSLtFLQq9CqzI1P9juqxmBMAIRcRHSAsoZtf4aTPkYKoyFd3PcnjBdL1oTNFTbKlsfbeBd7T2wEUOx3H_Pix_mnbkMSZD0iSZ7HMPTts9DfbJqAxsTh_dVRIEIx8fBvXCHwmj650_UHyuFq_uNjewni_vIo0GnoTwcWlNRT9ybZWkdOZLboaC3qSssFFHRIa3NNJh3LnfVYlkDKrXd7Cx-0o-K1xJaTvqNiate70bLL-PuBBjxsai7xFfn_b_lGzdu5Q"
+                                }
+                            }
+                        }
+
+                    },
+                    "404" : {
+                    "description": "Not found account",
+                    "content": {
+                        "application/json" : {
+                               "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 404,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 404,
+                                    "message" : "User tidak ditemukan"
+                                }
+                            }
+                        }
+                    }
+
+                    },
+                    "403" : {
+                    "description": "Wrong password",
+                    "content": {
+                        "application/json" : {
+                              "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 403,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 403,
+                                    "message" : "Email atau Password salah"
+                                }
+                            }
+                        }
+                    }
+
+                    },
+                     "500" : {
+                    "description": "Error Server",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 500,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 500,
+                                    "message" : "Gagal Login. Silahkan coba lagi."
+                                }
+                            }
+                        }
+                    }
+
+                    }
+                }
+            }
+        },
+        "/auth/logout" : {
+            "get" : {
+                "tags": ["Auth"],
+                "security": [
+                    {
+                        "KampaserAuthentication" : []
+                    },
+                    {
+                        "KampaserAuthorization" : []
+                    }
+                ],
+                "summary": "Logout Kampaser",
+                "description": "Logout with active account",
+                "parameters": [
+                    {
+                     "$ref" : "#components/parameters/platform"
+                    }
+                ],
+                    "responses": {
+                    "200" : {
+                        "description": "Success Logout",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "type": "object",
+                                   "properties": {
+                                       "status" : {
+                                           "type": "integer"
+                                       },
+                                       "success" : {
+                                           "type": "string"
+                                       },
+                                       "data" : {
+                                            "type": "object"
+
+
+                                       },
+                                       "token" : {
+                                           "type": "string"
+                                       }
+                                   }
+                                },
+                                "example": {
+                                    "status" : 200,
+                                    "success" : true,
+                                    "data" : null
+                                }
+                            }
+                        }
+
+                    },
+                    "401" : {
+                    "description": "Unauthorized",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 401,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 401,
+                                    "message" : "Unauthorized."
+                                }
+                            }
+                        }
+                    }
+                    },
+                    "500" : {
+                    "description": "Error Server",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 500,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 500,
+                                    "message" : "Gagal Logout. Silahkan coba lagi."
+                                }
+                            }
+                        }
+                    }
+
+                    }
+                }
+            }
+        },
+        "/warung/list" : {
+            "get" : {
+                "tags": ["Warung"],
+                "security": [
+                    {
+                        "KampaserAuthentication" : []
+                    },
+                    {
+                        "KampaserAuthorization" : []
+                    }
+                ],
+                "summary": "List Warung",
+                "description": "List warung by Kampaser",
+                "parameters": [
+                    {
+                     "$ref" : "#components/parameters/platform"
+                    }
+                ],
+                "responses": {
+                "200" : {
+                        "description": "Get list Warung",
+                        "content": {
+                            "application/json" : {
+                                "schema" : {
+                                    "type": "object",
+                                   "properties": {
+                                       "status" : {
+                                           "type": "integer"
+                                       },
+                                       "success" : {
+                                           "type": "string"
+                                       },
+                                       "data" : {
+                                            "type": "object",
+                                            "properties": {
+                                            "warung_id" : {
+                                                "type": "integer",
+                                                "example" : 1
+                                            },
+                                            "warung_name" : {
+                                                "type": "string",
+                                                "example": "Alfa Maret"
+                                            },
+                                            "warung_user_id" : {
+                                                "type": "integer"
+                                            },
+                                            "warung_user_name" : {
+                                                "type" : "string"
+                                            },
+                                            "warung_contact" : {
+                                                "type": "string"
+                                            },
+                                            "warung_address" : {
+                                                "type": "string"
+                                            }
+
+                                       }
+                                   }
+                                }
+                            },
+                              "example": {
+                                    "status" : 200,
+                                    "success" : true,
+                                    "data" : {
+                                        "warung_id" : 1,
+                                        "warung_namre" : "Alfa Maret",
+                                        "warung_user_id" : 1,
+                                        "warung_user_name" : "Ko Anton",
+                                        "warung_contact" : "08982727",
+                                        "warung_address" : "Dak Tau Street"
+                                    }
+                                }
+                        }
+
+                    }
+                },
+                "401" : {
+                    "description": "Unauthorized",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 401,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 401,
+                                    "message" : "Unauthorized."
+                                }
+                            }
+                        }
+                    }
+                    },
+                   "500" : {
+                    "description": "Error Server",
+                    "content": {
+                        "application/json" : {
+                            "schema" : {
+                                "$ref" : "#components/schemas/errorSchema"
+                            },
+                            "example": {
+                                "status" : 500,
+                                "success" : false,
+                                "error" : {
+                                    "code" : 500,
+                                    "message" : "Gagal menampilkan list warung. Silahkan ulangi kembali"
+                                }
+                            }
+                        }
+                    }
+
+                    }
+            }
+        }
+        }
+},
+    "components": {
+
+    "parameters": {
+       "platform" : {
+        "name" : "platform",
+        "in" : "header",
+        "required" : true,
+        "description": "Client Platform Type",
+        "schema": {
+            "type": "string"
+        },
+        "examples": {
+            "Android" : {
+                "description": "Example platform Android",
+                "value" : "A"
+            },
+            "iOS" : {
+                "description": "Example platform iOS",
+                "value" : "iOS"
+            }
+        }
+       }
+    },
+    "securitySchemes": {
+        "KampaserAuthentication" : {
+            "description": "Authentication for Kampaser API",
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        },
+          "KampaserAuthorization" : {
+            "description": "Authorization for Kampaser API",
+            "type": "http",
+            "scheme": "bearer"
+        }
+    },
+      "schemas": {
+        "errorSchema" : {
+        "type": "object",
+        "properties": {
+            "status" : {
+                "type": "integer"
+            },
+            "success" : {
+                "type": "string"
+            },
+            "error" : {
+                "type": "object",
+                "properties": {
+                    "code" : {
+                        "type" : "integer"
+                    },
+                    "message" : {
+                        "type": "string"
+                    }
+                }
+
+            }
+        }
+        }
+      }
+    }
+}
